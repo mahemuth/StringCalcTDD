@@ -1,5 +1,7 @@
 package org.incubyte.eval;
 
+import java.util.Arrays;
+
 /**
  * StringCalculator - Calculation of numbers from String.
  *
@@ -14,10 +16,15 @@ public class StringCalculator {
      * @return - Integer
      */
     public int add(String numbers){
+
+        int result = 0;
         if(numbers == null || numbers.isEmpty() || numbers.trim().isEmpty()){
-            return 0; //Use Case 1
+            return result; //Use Case 1
         } else { //Use Case 2 - Single number addition
-            return Integer.parseInt(numbers);
+            String delimiter = ",";
+            result = Arrays.stream(numbers.split(delimiter))
+                    .filter(val -> !val.trim().isEmpty()).map(Integer::parseInt).reduce(0, Integer::sum);
+            return result;
         }
     }
 }

@@ -32,12 +32,21 @@ public class StringCalculatorTest {
         assertEquals(0, stringCalculator.add(""));
     }
 
-    //Use Case 2: Single Number Validation
+    //Use Case 2a: Single Number Validation
     @Test
     public void testSingleNumberWithoutDelimiter() {
         assertEquals(1, stringCalculator.add("1"));
         assertEquals(0, stringCalculator.add("0"));
         assertEquals(1, stringCalculator.add("01"));
+    }
+
+    //Use Case 2b: Multiple Number Validation
+    @Test
+    public void testMultipleNumberWithDefaultDelimiter() {
+        assertEquals(6, stringCalculator.add("1,2,3"));
+        assertEquals(7, stringCalculator.add("0,3,4"));
+        assertEquals(9, stringCalculator.add("01,8"));
+        assertEquals(6, stringCalculator.add("2, ,4"));
     }
 
 }
