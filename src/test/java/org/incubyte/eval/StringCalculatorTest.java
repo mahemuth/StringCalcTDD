@@ -66,7 +66,7 @@ public class StringCalculatorTest {
         assertEquals(20, stringCalculator.add("//;\n1;2;6;7,4"));
     }
 
-    //Use Case 4: With negative number delimiter Validation
+    //Use Case 5: With negative number delimiter Validation
     @Test
     public void testNegativeNumber() {
         try {
@@ -84,5 +84,12 @@ public class StringCalculatorTest {
         } catch (RuntimeException e) {
             assertEquals(e.getMessage(), "negatives not allowed : -1,-2,-5,-8,-3");
         }
+    }
+
+    //Use Case 6: Check number with >1000
+    @Test
+    public void testGreaterThanThousand() {
+        assertEquals(2, stringCalculator.add("1001,2"));
+        assertEquals(3, stringCalculator.add("//;\n1,2;2000"));
     }
 }

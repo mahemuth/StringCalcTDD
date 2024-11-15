@@ -36,7 +36,7 @@ public class StringCalculator {
                             negativeNumbers.append(num).append(",");
                         }
                         return num;
-                    }).reduce(0, Integer::sum);
+                    }).filter( val-> val <= 1000).reduce(0, Integer::sum);
             if(!negativeNumbers.isEmpty()){
                 throw  new RuntimeException("negatives not allowed : "
                         + negativeNumbers.substring(0,negativeNumbers.length()-1));
