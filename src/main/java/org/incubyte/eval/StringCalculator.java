@@ -21,7 +21,7 @@ public class StringCalculator {
         if(numbers == null || numbers.isEmpty() || numbers.trim().isEmpty()){
             return result; //Use Case 1
         } else { //Use Case 2 - Single number addition
-            String delimiter = ",";
+            String delimiter = ",|\n";
             result = Arrays.stream(numbers.split(delimiter))
                     .filter(val -> !val.trim().isEmpty()).map(Integer::parseInt).reduce(0, Integer::sum);
             return result;

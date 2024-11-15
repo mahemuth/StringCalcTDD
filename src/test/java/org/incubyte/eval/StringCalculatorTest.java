@@ -49,4 +49,12 @@ public class StringCalculatorTest {
         assertEquals(6, stringCalculator.add("2, ,4"));
     }
 
+    //Use Case 3: With new line delimiter Validation
+    @Test
+    public void testNewLineDelimiter() {
+        assertEquals(6, stringCalculator.add("1\n2,3"));
+        assertEquals(7, stringCalculator.add("0,3\n4"));
+        assertEquals(9, stringCalculator.add("01\n8"));
+        assertEquals(6, stringCalculator.add("2, \n4"));
+    }
 }
