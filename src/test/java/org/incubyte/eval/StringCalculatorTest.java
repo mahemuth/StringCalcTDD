@@ -57,4 +57,12 @@ public class StringCalculatorTest {
         assertEquals(9, stringCalculator.add("01\n8"));
         assertEquals(6, stringCalculator.add("2, \n4"));
     }
+
+    //Use Case 4: With different line delimiter Validation
+    @Test
+    public void testDifferentDelimiter() {
+        assertEquals(3, stringCalculator.add("//;\n1;2"));
+        assertEquals(8, stringCalculator.add("//;\n1,2;5"));
+        assertEquals(20, stringCalculator.add("//;\n1;2;6;7,4"));
+    }
 }
