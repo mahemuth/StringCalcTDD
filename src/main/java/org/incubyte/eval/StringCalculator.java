@@ -1,6 +1,7 @@
 package org.incubyte.eval;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * StringCalculator - Calculation of numbers from String.
@@ -19,7 +20,7 @@ public class StringCalculator {
 
         int result = 0;
         if(numbers == null || numbers.isEmpty() || numbers.trim().isEmpty()){
-            return result; //Use Case 1
+            return result; //Use Case 1 - Empty Check
         } else { //Use Case 2 - Single number addition
             String delimiter = ",|\n"; // With new line delimiter
             if(numbers.startsWith("//")){//Different Delimiters
@@ -28,6 +29,7 @@ public class StringCalculator {
                 numbers = numbers.substring(numbers.indexOf("\n")+1);
             }
             StringBuilder negativeNumbers = new StringBuilder();
+            delimiter = checkReservedCharAndReplace(delimiter);
             result = Arrays.stream(numbers.split(delimiter))
                     .filter(val -> !val.trim().isEmpty())
                     .map(val -> {
@@ -45,11 +47,31 @@ public class StringCalculator {
         }
     }
 
+    private String checkReservedCharAndReplace(String delimiter) {
+        List<String> reservedChar = Arrays.asList("*", "?", "+");
+        for(String val : reservedChar){
+            if(delimiter.contains(val)){
+                delimiter = delimiter.replace(val, "\\" + val);
+            }
+        }
+        return delimiter;
+    }
+
     private String getDelimiters(String numbers) {
         String delimiter = "";
-        if(numbers.matches("//(.*)\n(.*)")){
-            delimiter += numbers.charAt(2) + "|";
-        }
+        if (numbers.matches("//\\[(.*)\\]\\[(.*)\\](.*)\n(.*)")) {
+            String delimiterStr = numbers.substring(0,numbers.indexOf("\n"));
+            while(!delimiterStr.isEmpty()){
+                int startIdx = delimiterStr.indexOf("[") + 1;
+                int endIdx = delimiterStr.indexOf("]");
+                delimiter += delimiterStr.substring(startIdx,endIdx) + "|";
+                delimiterStr = delimiterStr.substring(endIdx+1,delimiterStr.length());
+            }
+        } else if (numbers.matches("//\\[(.*)\\](.*)\n(.*)")) {
+            delimiter += numbers.substring(numbers.indexOf("[")+1, numbers.indexOf("]")) + "|";
+        } else if(numbers.matches("//(.*)\n(.*)")){
+             delimiter += numbers.charAt(2) + "|";
+         }
         return delimiter.endsWith("|") ? delimiter.substring(0, delimiter.length()-1) : delimiter;
     }
 }

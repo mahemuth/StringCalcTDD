@@ -92,4 +92,19 @@ public class StringCalculatorTest {
         assertEquals(2, stringCalculator.add("1001,2"));
         assertEquals(3, stringCalculator.add("//;\n1,2;2000"));
     }
+
+    //Use Case 7: Delimiter with length more than one
+    @Test
+    public void testDelimiterLengthWithMoreThanOne() {
+       assertEquals(6, stringCalculator.add("//[***]\n1***2***3"));
+        assertEquals(6, stringCalculator.add("//[***&&]\n1***&&2***&&3"));
+    }
+
+    //Use Case 8: Different Delimiter in same string input
+    @Test
+    public void testDifferentCombinationDelimiter() {
+        assertEquals(6, stringCalculator.add("//[*][%]\n1*2%3"));
+        assertEquals(6, stringCalculator.add("//[?][;]\n1?2;3"));
+        assertEquals(9, stringCalculator.add("//[+][?][*]\n1?2*3+3"));
+    }
 }
