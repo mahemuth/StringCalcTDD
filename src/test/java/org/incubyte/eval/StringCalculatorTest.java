@@ -65,4 +65,24 @@ public class StringCalculatorTest {
         assertEquals(8, stringCalculator.add("//;\n1,2;5"));
         assertEquals(20, stringCalculator.add("//;\n1;2;6;7,4"));
     }
+
+    //Use Case 4: With negative number delimiter Validation
+    @Test
+    public void testNegativeNumber() {
+        try {
+            stringCalculator.add("//;\n-11;2");
+        } catch (RuntimeException e) {
+            assertEquals(e.getMessage(), "negatives not allowed : -11");
+        }
+        try {
+            stringCalculator.add("//;\n1,2;-5");
+        } catch (RuntimeException e) {
+            assertEquals(e.getMessage(), "negatives not allowed : -5");
+        }
+        try {
+            stringCalculator.add("//;\n-1,-2;-5,-8,-3");
+        } catch (RuntimeException e) {
+            assertEquals(e.getMessage(), "negatives not allowed : -1,-2,-5,-8,-3");
+        }
+    }
 }

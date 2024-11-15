@@ -27,8 +27,20 @@ public class StringCalculator {
                 delimiter += "|" + delimiters;
                 numbers = numbers.substring(numbers.indexOf("\n")+1);
             }
+            StringBuilder negativeNumbers = new StringBuilder();
             result = Arrays.stream(numbers.split(delimiter))
-                    .filter(val -> !val.trim().isEmpty()).map(Integer::parseInt).reduce(0, Integer::sum);
+                    .filter(val -> !val.trim().isEmpty())
+                    .map(val -> {
+                        int num = Integer.parseInt(val);
+                        if (num < 0) {
+                            negativeNumbers.append(num).append(",");
+                        }
+                        return num;
+                    }).reduce(0, Integer::sum);
+            if(!negativeNumbers.isEmpty()){
+                throw  new RuntimeException("negatives not allowed : "
+                        + negativeNumbers.substring(0,negativeNumbers.length()-1));
+            }
             return result;
         }
     }
