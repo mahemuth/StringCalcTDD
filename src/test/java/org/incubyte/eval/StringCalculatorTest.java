@@ -105,6 +105,12 @@ public class StringCalculatorTest {
     public void testDifferentCombinationDelimiter() {
         assertEquals(6, stringCalculator.add("//[*][%]\n1*2%3"));
         assertEquals(6, stringCalculator.add("//[?][;]\n1?2;3"));
-        assertEquals(9, stringCalculator.add("//[+][?][*]\n1?2*3+3"));
+        assertEquals(9, stringCalculator.add("//[+][?][;]\n1?2;3+3"));
+    }
+
+    //Use Case 9: With different delimiter * for multiply numbers
+    @Test
+    public void testDifferentDelimiterForMultiplication() {
+        assertEquals(12, stringCalculator.add("//*\n1*2*6"));
     }
 }

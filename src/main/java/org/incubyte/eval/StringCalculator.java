@@ -2,6 +2,7 @@ package org.incubyte.eval;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * StringCalculator - Calculation of numbers from String.
@@ -32,18 +33,28 @@ public class StringCalculator {
             }
             StringBuilder negativeNumbers = new StringBuilder(); // To capture negative numbers
             delimiter = checkReservedCharAndReplace(delimiter);
-
-            //SUM Logic
-            result = Arrays.stream(numbers.split(delimiter))
-                    .filter(val -> !val.trim().isEmpty())
-                    .map(val -> {
-                        int num = Integer.parseInt(val);
-                        if (num < 0) {
-                            negativeNumbers.append(num).append(",");
-                        }
-                        return num;
-                    }).filter(val -> val <= 1000).reduce(0, Integer::sum);
-
+            boolean isMultiplication = delimiter.endsWith("*");
+            /*if(delimiter.endsWith("*")){
+                result = Arrays.stream(numbers.split(delimiter))
+                        .mapToInt(Integer::parseInt).reduce((v1,v2)-> v1 * v2).getAsInt();
+            } else {*/
+                //SUM Logic
+                result = Arrays.stream(numbers.split(delimiter))
+                        .filter(val -> !val.trim().isEmpty())
+                        .map(val -> {
+                            int num = Integer.parseInt(val);
+                            if (num < 0) {
+                                negativeNumbers.append(num).append(",");
+                            }
+                            return num;
+                        }).filter(val -> val <= 1000).reduce((v1,v2) -> {
+                           if(isMultiplication){
+                               return v1 * v2;
+                           } else {
+                               return v1 + v2;
+                           }
+                        }).get();
+            /*}*/
             //Negative number exception
             if (!negativeNumbers.isEmpty()) {
                 throw new RuntimeException("negatives not allowed : "
