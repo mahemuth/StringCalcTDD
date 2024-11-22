@@ -2,6 +2,7 @@ package org.incubyte.eval;
 
 import org.incubyte.eval.StringCalculator;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,21 +70,20 @@ public class StringCalculatorTest {
     //Use Case 5: With negative number delimiter Validation
     @Test
     public void testNegativeNumber() {
-        try {
+        RuntimeException val = Assertions.assertThrows(RuntimeException.class, () -> {
             stringCalculator.add("//;\n-11;2");
-        } catch (RuntimeException e) {
-            assertEquals(e.getMessage(), "negatives not allowed : -11");
-        }
-        try {
+        });
+        assertEquals( "negatives not allowed : -11",val.getMessage());
+
+        val = Assertions.assertThrows(RuntimeException.class, () -> {
             stringCalculator.add("//;\n1,2;-5");
-        } catch (RuntimeException e) {
-            assertEquals(e.getMessage(), "negatives not allowed : -5");
-        }
-        try {
+        });
+        assertEquals( "negatives not allowed : -5",val.getMessage());
+
+        val = Assertions.assertThrows(RuntimeException.class, () -> {
             stringCalculator.add("//;\n-1,-2;-5,-8,-3");
-        } catch (RuntimeException e) {
-            assertEquals(e.getMessage(), "negatives not allowed : -1,-2,-5,-8,-3");
-        }
+        });
+        assertEquals( "negatives not allowed : -1,-2,-5,-8,-3",val.getMessage());
     }
 
     //Use Case 6: Check number with >1000
